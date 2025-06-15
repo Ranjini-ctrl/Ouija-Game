@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghostly RPS Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Nosifer', cursive;
+      background: url('https://cdn.pixabay.com/photo/2018/01/31/07/36/secret-3120483_1280.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #ff4444;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ff0000;
+    }
+    h2{
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ff0000;
+      
+    }
+
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .choose {
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 3px solid red;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 0 0 20px red;
+      transition: transform 0.3s ease;
+    }
+
+    .choose:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #ff0000;
+    }
+
+    .score {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      font-size: 1.2rem;
+      color: #020000;
+      margin-bottom: 30px;
+    }
+
+    .result {
+      font-size: 2rem;
+      color: #ff5555;
+      text-shadow: 0 0 10px red;
+    }
+
+    #exit-button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background-color: black;
+      color: red;
+      border: 2px solid red;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 0 15px red;
+    }
+
+    #exit-button:hover {
+      background-color: red;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock ✊🏼 — Paper 🖐🏼 — Scissors ✌🏼<br>👻 With a Ghost! 👻</h1>
+  <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay loop style="display:none"></audio>
+    <h2>If You score out of 3 .I will leave you</h2>
+  <div class="choices">
+    <button class="choose" data-choice="rock">
+      <img src="https://1000logos.net/wp-content/uploads/2024/04/Emoji-Rock.png" alt="Rock" width="80" height="80">
+    </button>
+    <button class="choose" data-choice="paper">📰</button>
+    <button class="choose" data-choice="scissors">✂️</button>
+  </div>
+
+  <div class="score">
+    <div class="pscore">
+      <h3>Player</h3>
+      <h5 id="player-score">Score: 0</h5>
+    </div>
+    <div class="mscore">
+      <h3>Ghost</h3>
+      <h5 id="machine-score">Score: 0</h5>
+    </div>
+  </div>
+
+  <div class="result" id="result-text">Dare to play...?</div>
+
+  <button id="exit-button" onclick="window.location.href='index.html'">Exit Game</button>
+
+  <!-- Audio -->
+  <audio id="cheer-audio" src="yay-6326.mp3"></audio>
+  <audio id="ghost-audio" src="gh.mp3"></audio>
+
+  <script>
+    const choices = document.querySelectorAll('.choose');
+    const playerScoreElem = document.getElementById('player-score');
+    const machineScoreElem = document.getElementById('machine-score');
+    const resultText = document.getElementById('result-text');
+    const exitButton = document.getElementById('exit-button');
+
+    const cheerSound = document.getElementById('cheer-audio');
+    const ghostSound = document.getElementById('ghost-audio');
+
+    let playerScore = 0;
+    let machineScore = 0;
+
+    const getMachineChoice = () => {
+      const options = ['rock', 'paper', 'scissors'];
+      return options[Math.floor(Math.random() * options.length)];
+    };
+
+    const getResult = (player, machine) => {
+      if (player === machine) return 'draw';
+      if (
+        (player === 'rock' && machine === 'scissors') ||
+        (player === 'paper' && machine === 'rock') ||
+        (player === 'scissors' && machine === 'paper')
+      ) {
+        return 'win';
+      }
+      return 'lose';
+    };
+
+    const updateScores = (result) => {
+      if (result === 'win') {
+        playerScore++;
+        resultText.textContent = 'You defeated the ghost! 👻✨';
+        cheerSound.play();
+      } else if (result === 'lose') {
+        machineScore++;
+        resultText.textContent = 'The ghost wins... 💀';
+        ghostSound.play();
+      } else {
+        resultText.textContent = "It's a draw... 👁";
+      }
+
+      playerScoreElem.textContent = `Score: ${playerScore}`;
+      machineScoreElem.textContent = `Score: ${machineScore}`;
+
+     if (playerScore >= 3)
+ {
+        exitButton.style.display = 'inline-block';
+      }
+    };
+
+    choices.forEach(choice => {
+      choice.addEventListener('click', () => {
+        cheerSound.pause(); cheerSound.currentTime = 0;
+        ghostSound.pause(); ghostSound.currentTime = 0;
+
+        const playerChoice = choice.getAttribute('data-choice');
+        const machineChoice = getMachineChoice();
+        const result = getResult(playerChoice, machineChoice);
+        updateScores(result);
+      });
+      
+    });
+  </script>
+</body>
+</html>

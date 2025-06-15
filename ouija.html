@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ouija Board</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: url('https://cdn.pixabay.com/photo/2022/10/23/22/50/ouija-7542280_1280.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #00ffcc;
+      font-family: 'Creepster', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background-color 0.5s;
+    }
+
+    .vibrate {
+      animation: shake 0.1s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #screenOff, #ouijaBoard {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    #screenOff {
+      background-color: black;
+      color: red;
+      font-size: 3rem;
+      text-shadow: 0 0 20px red;
+    }
+
+    #ouijaBoard {
+      color: #00ffcc;
+      display: flex;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px red;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1.2rem;
+      width: 300px;
+      text-align: center;
+      font-family: 'Creepster', cursive;
+      background-color: black;
+      border: 2px solid red;
+      color: #00ffcc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: 'Creepster', cursive;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 10px red;
+    }
+
+    .response {
+      margin-top: 30px;
+      font-size: 2rem;
+      color: red;
+      text-align: center;
+      text-shadow: 0 0 10px #ff0000;
+    }
+
+    .board {
+      border: 5px double red;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px red;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <audio id="myAudio" src="ghost-girl-in-my-room-158693.mp3"></audio>
+
+  <div id="screenOff"></div>
+  <div id="ouijaBoard" class="board">
+    <h1>🕯️ Ouija 🕯️</h1>
+    <input type="text" id="questionInput" placeholder="Ask your question..." />
+    <br>
+    <button onclick="askGhost()">Ask Ghost</button>
+     <div class="response" id="responseText"></div>
+  </div>
+
+  <script>
+    const audio = document.getElementById("myAudio");
+    function loopAudio() {
+      audio.currentTime = 0;
+      audio.play();
+    }
+    loopAudio();
+    setInterval(loopAudio, 30000);
+
+    const qaList = [
+      { questions: ["what is your name", "name", "what's your name", "ur name", "your name", "nam kya hai", "tumera nam"], answer: "I don't want to tell you" },
+      { questions: ["when you born", "where are you born", "born"], answer: "In a time long forgotten, in a place swallowed by shadows..." },
+      { questions: ["how did you die", "you die", "how u die", "how you die"], answer: "Screaming... alone... in fire and fear..." },
+      { questions: ["what is your purpose here", "why are u here", "why are you here", "why u here"], answer: "To finish what was never done..." },
+      { questions: ["where are you from", "where u from", "where are u from", "where from"], answer: "I'm from Hell. I have the wish, do you complete my wish?" },
+      { questions: ["in hell what u do", "what you do in hell", "what u do in hell", "what u work in hell", "why u in hell", "why you in hell"], answer: "Your world pushed me there. I have the wish, do you complete my wish?" },
+      { questions: ["what is your wish", "no", "noo", "no to do", "yes"], answer: "You must complete my wish — that's your fate." },
+      { questions: ["can you tell me about your life"], answer: "A short tale... ended with a scream..." },
+      { questions: ["are you with us", "are you with me", "are u here", "are you here", "are u with me"], answer: "Always..." },
+      { questions: ["are you close to us", "where are you", "where are u"], answer: "I'm closer than your breath..." },
+      { questions: ["show us yourself"], answer: "Look into the darkness..." },
+      { questions: ["where you here", "where are you here"], answer: "Right behind you..." },
+      { questions: ["why are you here", "why you here"], answer: "I have the wish." },
+      { questions: ["should we leave"], answer: "You’re already too late..." },
+      { questions: ["do you know my name"], answer: "Yes... and I whisper it while you sleep..." },
+      { questions: ["tell my name"], answer: "It’s already carved in my memory..." }
+    ];
+
+    function askGhost() {
+      const input = document.getElementById("questionInput").value.toLowerCase();
+      const responseEl = document.getElementById("responseText");
+      const body = document.body;
+
+      let found = false;
+      for (let item of qaList) {
+        if (item.questions.some(q => input.includes(q))) {
+          responseEl.textContent = item.answer;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) responseEl.textContent = "The spirits don’t understand your words... try again...";
+
+      const scaryWords = ["kill", "die", "blood", "death", "darkness", "haunt", "soul", "devil"];
+      if (scaryWords.some(word => input.includes(word))) {
+        body.classList.add("vibrate");
+        body.style.backgroundColor = "red";
+        setTimeout(() => {
+          body.classList.remove("vibrate");
+          body.style.backgroundColor = "black";
+        }, 3000);
+      }
+
+      document.getElementById("questionInput").value = "";
+    }
+
+    // Jump scare after 3 mins
+    setTimeout(() => {
+      const body = document.body;
+      const jumpAudio = new Audio("gh.mp3");
+      jumpAudio.play();
+      const jumpScare = document.createElement("img");
+      jumpScare.src = "https://cdn.pixabay.com/photo/2020/10/31/17/40/halloween-5703051_1280.jpg";
+      jumpScare.style.position = "fixed";
+      jumpScare.style.top = "0";
+      jumpScare.style.left = "0";
+      jumpScare.style.width = "100vw";
+      jumpScare.style.height = "100vh";
+      jumpScare.style.zIndex = "9999";
+      jumpScare.style.animation = "blink 0.2s 5";
+      jumpScare.style.objectFit = "cover";
+      body.appendChild(jumpScare);
+      body.classList.add("vibrate");
+      setTimeout(() => {
+        jumpScare.remove();
+        body.classList.remove("vibrate");
+      }, 2000);
+    }, 180000);
+
+    // Redirect after 1 minute
+    setTimeout(() => {
+      window.location.href = 'game.html';
+    }, 60000);
+  </script>
+</body>
+</html>

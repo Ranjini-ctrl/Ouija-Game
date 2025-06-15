@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ouija</title>
+  <style>
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 22%, 24%, 55% { opacity: 0.5; }
+    }
+
+    body {
+      margin: 0;
+      background-color: #b8860b;
+      font-family: 'Brush Script MT', cursive;
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 100px;
+      position: relative;
+      background-image: url("https://cdn.pixabay.com/photo/2015/02/04/09/20/skulls-623532_1280.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    h1 {
+      color: red;
+      font-size: 70px;
+      margin: 0;
+      text-align: center;
+      animation: flicker 2s infinite;
+      user-select: none;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: transparent;
+      padding: 10px 20px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    .warning {
+      background-color: rgba(218, 163, 163, 0.5);
+      border-radius: 20px;
+      height: 400px;
+      width: 400px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      font-size: 35px;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 20px;
+    }
+
+    #toggleWarningBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #8b0000;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+    }
+
+    .rules-box {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 2px solid #f123036b;
+      border-radius: 30px;
+      padding: 25px 30px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 15px #080100;
+      margin-top: 140px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #380a02;
+      font-size: 40px;
+      margin: 5px 0;
+      text-shadow: 0 0 5px #f55423;
+    }
+
+    .rule-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .rule-list li {
+      margin-bottom: 15px;
+      font-size: 28px;
+      background:rgb(7, 0, 0);
+      border-left: 4px solid #fc4444;
+      padding: 10px 15px;
+      border-radius: 5px;
+      display: none;
+      color: #fa3205;
+    }
+
+    .rule-list li::before {
+      content: "👻 ";
+      margin-right: 8px;
+    }
+
+    #talkButton {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #talkButton button {
+      font-family: 'Courier New', monospace;
+      background: rgba(82, 4, 2, 0.8);
+      color: white;
+      border: 1px solid #520402;
+      padding: 10px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    #talkButton button:hover {
+      background: #700000;
+      transform: scale(1.05);
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%) translateY(-50%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0) translateY(-50%);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6); }
+      50% { box-shadow: -5px 5px 25px rgba(82, 4, 2, 0.8); }
+      100% { box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Ghost World!</h1>
+
+  <button id="toggleWarningBtn" title="Toggle Warning">⚠️</button>
+  <audio id="myAudio" src="scary-horror-music-351315.mp3"></audio>
+
+  <div class="warning" id="warningBox">
+    <p>⚠️ Warning:<br> The Site is not to Play.
+      It is believed to open communication with the spirit realm.
+      Use at your own risk. Always proceed
+      with caution, respect, and a serious mindset. What you summon may not go away.
+    </p>
+  </div>
+
+  <div class="rules-box">
+    <h2>⚠️ Game Rules</h2>
+    <ul class="rule-list" id="ruleList">
+      <li>Play must be with more than 1 member.</li>
+      <li>Turn off all lights before starting.</li>
+      <li>Turn on a candle for ambiance.</li>
+      <li>Only play at night time.</li>
+      <li>Play with full belief and seriousness.</li>
+      <li>Don’t run away until the game is fully completed.</li>
+    </ul>
+    <div id="talkButton">
+      <a href="scan.html" style="text-decoration: none;">
+        <button>Talk with Ghost</button>
+      </a>
+    </div>
+  </div>
+
+  <div style="
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #e0e0ff;
+    padding: 20px;
+    border-radius: 10px 0 0 10px;
+    border-left: 3px solid #520402;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6);
+    z-index: 1000;
+    max-width: 250px;
+    animation: slideInRight 1s ease-out, pulse 4s infinite alternate;
+    backdrop-filter: blur(3px);
+  ">
+    <div style="font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #520402; padding-bottom: 8px; color: #d4a59a;">
+      Spirit Communication
+    </div>
+    <div style="margin-bottom: 15px; line-height: 1.5;">
+      Complete the rituals...<br>
+      Then the ghost may speak...
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById("myAudio");
+
+    function loopAudio() {
+      audio.currentTime = 0;
+      audio.play();
+    }
+
+    loopAudio();
+    setInterval(loopAudio, 30000); // 30s loop
+
+    // Warning toggle
+    const toggleBtn = document.getElementById('toggleWarningBtn');
+    const warningBox = document.getElementById('warningBox');
+    toggleBtn.addEventListener('click', () => {
+      warningBox.style.display = (warningBox.style.display === 'flex') ? 'none' : 'flex';
+    });
+
+    // Show rules one by one
+    const ruleItems = document.querySelectorAll('#ruleList li');
+    const talkButton = document.getElementById('talkButton');
+    let currentRule = 0;
+
+    function showNextRule() {
+      if (currentRule < ruleItems.length) {
+        ruleItems[currentRule].style.display = 'block';
+        currentRule++;
+        setTimeout(showNextRule, 2000); // delay between rules
+      } else {
+        talkButton.style.display = 'block';
+      }
+    }
+
+    setTimeout(showNextRule, 1000); // start after 1s
+  </script>
+</body>
+</html>

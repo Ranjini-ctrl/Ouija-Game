@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scanning Ghost</title>
+  <style>
+    body {
+      background: url('https://cdn.pixabay.com/photo/2021/02/13/12/49/house-6011465_640.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .scanner-container {
+      background: rgba(1, 1, 12, 0.88);
+      border-radius: 16px;
+      box-shadow: 0 0 30px #000a;
+      padding: 32px 40px;
+      text-align: center;
+      min-width: 340px;
+      max-width: 400px;
+      backdrop-filter: shadowBlur(1px);
+    }
+    #radar {
+      display: block;
+      margin: 0 auto 16px auto;
+      background: rgba(24, 24, 36, 0.75);
+      border-radius: 50%;
+      box-shadow: 0 0 30px #000a inset;
+    }
+    #ghostLogoCircle {
+      display: none;
+      margin: 30px auto 0 auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 32px 8px #000a, 0 0 0 8px #23234a;
+      background: #181824;
+      position: relative;
+      animation: ghostPop 0.8s;
+    }
+    #ghostLogoCircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    @keyframes ghostPop {
+      0% { transform: scale(0.2) rotate(-20deg); opacity: 0; }
+      60% { transform: scale(1.1) rotate(8deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    #connectMsg {
+      margin-top: 24px;
+      font-size: 1.2em;
+      color: #d895b3;
+      animation: fadeIn 0.7s;
+      text-shadow: 2px 2px 8px #000d;
+    }
+    #getStartedBtn {
+      display: none;
+      margin: 32px auto 0 auto;
+      padding: 12px 36px;
+      background: linear-gradient(90deg, #4cc9f0 0%, #f72585 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 10px #0004;
+      transition: background 0.2s, transform 0.2s;
+    }
+    #getStartedBtn:hover {
+      background: linear-gradient(90deg, #f72585 0%, #4cc9f0 100%);
+      transform: scale(1.05);
+    }
+    h1 {
+      text-shadow: 2px 2px 12px #000c;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <!-- Background music audio element -->
+  <audio id="bg-music" src="horror-box-149248.mp3" autoplay loop hidden></audio>
+  
+  <div class="scanner-container">
+    <h1>🔍 Searching for Ghosts in Your Area</h1>
+    <canvas id="radar" width="300" height="300"></canvas>
+    <div id="ghostLogoCircle">
+      <img src="scary.jpg" alt="Ghost">
+    </div>
+    <div id="connectMsg"></div>
+    <button id="getStartedBtn">Get Started</button>
+  </div>
+  <script>
+    // Ghost names
+    const ghostNames = [
+      "Paramakudi Ekamparam", "Thoothukudi Mooniyamma", "Keilpakam Ramesh ", "Gopalapuram gopal",
+      "Soolamedu sundari", "Karu karu Rakkamma", "Kodangi kumaru", "Kada Kumaru",
+      "Yamakaathagi", "Jamini", "Pottu palayam perumalu", "Alankulam Pandi"
+    ];
+
+    // Pick a random set of ghosts (3-7) and one to auto-connect
+    function getRandomGhosts() {
+      const shuffled = ghostNames.slice().sort(() => 0.5 - Math.random());
+      const count = Math.floor(Math.random() * 5) + 3;
+      return shuffled.slice(0, count);
+    }
+    const foundGhosts = getRandomGhosts();
+    const autoConnectIndex = Math.floor(Math.random() * foundGhosts.length);
+    const autoConnectGhost = foundGhosts[autoConnectIndex];
+
+    // Radar setup
+    const radar = document.getElementById('radar');
+    const ctx = radar.getContext('2d');
+    const radarCenter = { x: radar.width / 2, y: radar.height / 2 };
+    const radarRadius = 135;
+
+    // Place ghost dots randomly on the radar
+    function getRandomDotPositions(count) {
+      let dots = [];
+      for (let i = 0; i < count; i++) {
+        let r = Math.random() * (radarRadius - 20) + 30;
+        let theta = Math.random() * 2 * Math.PI;
+        let x = radarCenter.x + r * Math.cos(theta);
+        let y = radarCenter.y + r * Math.sin(theta);
+        dots.push({ x, y });
+      }
+      return dots;
+    }
+    const ghostDots = getRandomDotPositions(foundGhosts.length);
+
+    // Radar animation variables
+    let scanning = true;
+    let angle = 0;
+    let sweepSpeed = 0.03;
+
+    function drawRadar() {
+      ctx.clearRect(0, 0, radar.width, radar.height);
+
+      // Draw radar circles
+      ctx.save();
+      ctx.globalAlpha = 0.3;
+      ctx.strokeStyle = "#4cc9f0";
+      for (let i = 1; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.arc(radarCenter.x, radarCenter.y, (radarRadius / 3) * i, 0, 2 * Math.PI);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // Draw cross lines
+      ctx.save();
+      ctx.strokeStyle = "#4cc9f055";
+      ctx.beginPath();
+      ctx.moveTo(radarCenter.x, radarCenter.y - radarRadius);
+      ctx.lineTo(radarCenter.x, radarCenter.y + radarRadius);
+      ctx.moveTo(radarCenter.x - radarRadius, radarCenter.y);
+      ctx.lineTo(radarCenter.x + radarRadius, radarCenter.y);
+      ctx.stroke();
+      ctx.restore();
+
+      // Draw ghost dots
+      ghostDots.forEach((dot, i) => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = (i === autoConnectIndex) ? "#4cc9f0" : "#f72585";
+        ctx.shadowColor = (i === autoConnectIndex) ? "#4cc9f0" : "#f72585";
+        ctx.shadowBlur = (i === autoConnectIndex) ? 22 : 14;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // Draw sweeping line
+      if (scanning) {
+        ctx.save();
+        ctx.strokeStyle = "#4cc9f0";
+        ctx.globalAlpha = 0.8;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(radarCenter.x, radarCenter.y);
+        ctx.lineTo(
+          radarCenter.x + radarRadius * Math.cos(angle),
+          radarCenter.y + radarRadius * Math.sin(angle)
+        );
+        ctx.stroke();
+
+        // Draw sweep gradient
+        let grad = ctx.createRadialGradient(radarCenter.x, radarCenter.y, 0, radarCenter.x, radarCenter.y, radarRadius);
+        grad.addColorStop(0, 'rgba(76, 201, 240, 0.3)');
+        grad.addColorStop(1, 'rgba(76, 201, 240, 0)');
+        ctx.beginPath();
+        ctx.moveTo(radarCenter.x, radarCenter.y);
+        ctx.arc(radarCenter.x, radarCenter.y, radarRadius, angle - 0.3, angle + 0.3);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function animateRadar() {
+      if (!scanning) return;
+      angle += sweepSpeed;
+      if (angle > 2 * Math.PI) angle -= 2 * Math.PI;
+      drawRadar();
+      requestAnimationFrame(animateRadar);
+    }
+
+    // Animate radar for a few seconds, then show connection message and ghost logo
+    drawRadar();
+    animateRadar();
+
+    setTimeout(() => {
+      scanning = false;
+      drawRadar();
+      document.getElementById('ghostLogoCircle').style.display = 'block';
+      document.getElementById('connectMsg').innerHTML =
+        `🔮 Connected to <b>${autoConnectGhost}</b>!<br>Stay alert for paranormal activity in your area...`;
+      // Optionally hide the radar after scan
+      document.getElementById('radar').style.display = 'none';
+      // Show the Get Started button
+      document.getElementById('getStartedBtn').style.display = 'block';
+    }, 3200);
+
+    // Get Started button action
+    document.getElementById('getStartedBtn').onclick = function() {
+      // Example: Redirect to another page or start a new feature
+       window.location.href = 'ouija.html';
+      alert('Get Started clicked! Add your next action here.');
+    };
+
+    // Optional: Unmute audio on user interaction if browser blocks autoplay
+    document.body.addEventListener('click', function() {
+      const audio = document.getElementById('bg-music');
+      if (audio.paused) {
+        audio.play();
+      }
+    });
+  </script>
+</body>
+</html>
