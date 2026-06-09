@@ -17,47 +17,99 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 24px;
+      overflow-x: hidden;
+      background-color: #070609;
     }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .welcome {
-      background: rgba(20,18,40,0.92);
-      border-radius: 20px;
-      box-shadow: 0 0 40px #000a;
-      padding: 40px 36px;
-      min-width: 340px;
-      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      background: rgba(18, 16, 34, 0.96);
+      border-radius: 24px;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.55);
+      padding: 36px 32px;
+      width: min(92vw, 460px);
+      max-width: 460px;
       text-align: center;
-      animation: fadeIn 1s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s ease forwards;
     }
+
     .welcome h1 {
-      font-size: 2.2em;
-      margin-bottom: 12px;
+      font-size: clamp(2rem, 4vw, 2.4rem);
+      margin-bottom: 16px;
       letter-spacing: 2px;
-      text-shadow: 2px 2px 10px #000c;
+      text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.55);
     }
+
     .welcome p {
-      font-size: 1.1em;
-      margin-bottom: 28px;
-      color: #b6b6e4;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #d8d8f0;
+      line-height: 1.6;
     }
+
+    .loading-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 0 auto 24px auto;
+    }
+
+    .loading-bar span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #f72585, #4cc9f0);
+      animation: loadingProgress 2s ease-in-out forwards;
+    }
+
     .start-btn {
       background: linear-gradient(90deg, #f72585 0%, #4cc9f0 100%);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 12px 32px;
-      font-size: 1.1em;
-      font-weight: bold;
+      border-radius: 999px;
+      padding: 14px 32px;
+      font-size: 1.05rem;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 2px 10px #0004;
-      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 10px 25px rgba(247, 37, 133, 0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+      width: min(100%, 260px);
     }
+
     .start-btn:hover {
-      background: linear-gradient(90deg, #4cc9f0 0%, #f72585 100%);
-      transform: scale(1.05);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(247, 37, 133, 0.35);
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px);}
-      to   { opacity: 1; transform: translateY(0);}
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes loadingProgress {
+      to { width: 100%; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 18px; }
+      .welcome { padding: 24px; }
+      .welcome p { font-size: 0.98rem; }
+      .start-btn { width: 100%; }
     }
   </style>
 </head>
