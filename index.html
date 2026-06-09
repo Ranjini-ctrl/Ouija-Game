@@ -41,9 +41,8 @@
       width: min(92vw, 460px);
       max-width: 460px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 0.8s ease forwards;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .welcome h1 {
@@ -103,7 +102,7 @@
   <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay muted loop style="display:none"></audio>
 
   <!-- Welcome Page -->
-  <div class="welcome" id="welcomeScreen" style="display:none;">
+  <div class="welcome" id="welcomeScreen">
     <h1>🔮 Ouija Board Game</h1>
     <p>Welcome, seeker of mysteries!<br>
       Are you ready to contact the spirits?<br>
@@ -111,15 +110,8 @@
     <button class="start-btn" id="startBtn">Start Game</button>
   </div>
   <script>
-    const welcomeScreen = document.getElementById('welcomeScreen');
     const startBtn = document.getElementById('startBtn');
     const audio = document.getElementById('bg-music');
-
-    function showWelcome() {
-    welcomeScreen.style.display = 'block';
-      welcomeScreen.style.opacity = '1';
-      welcomeScreen.style.transform = 'translateY(0)';
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
       audio.play().catch(() => {});
@@ -129,7 +121,6 @@
       window.location.href = 'home.html';
     });
 
-    // Unmute audio on user interaction
     document.body.addEventListener('click', function() {
       if (audio) {
         audio.muted = false;
