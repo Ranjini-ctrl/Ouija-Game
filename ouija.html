@@ -81,6 +81,48 @@
       color: #00ffcc;
     }
 
+    .question-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      background-color: rgba(0, 20, 20, 0.5);
+    }
+
+    .question-label {
+      font-size: 1.2rem;
+      color: #00ffcc;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .response-section {
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px solid red;
+      border-radius: 10px;
+      background-color: rgba(20, 0, 0, 0.5);
+    }
+
+    .response-label {
+      font-size: 1.2rem;
+      color: red;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .response {
+      font-size: 2rem;
+      color: red;
+      text-align: center;
+      text-shadow: 0 0 10px #ff0000;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     button {
       margin-top: 15px;
       padding: 10px 20px;
@@ -92,14 +134,12 @@
       border: none;
       border-radius: 5px;
       box-shadow: 0 0 10px red;
+      transition: 0.3s;
     }
 
-    .response {
-      margin-top: 30px;
-      font-size: 2rem;
-      color: red;
-      text-align: center;
-      text-shadow: 0 0 10px #ff0000;
+    button:hover {
+      background-color: darkred;
+      box-shadow: 0 0 20px red;
     }
 
     .board {
@@ -117,10 +157,18 @@
   <div id="screenOff"></div>
   <div id="ouijaBoard" class="board">
     <h1>🕯️ Ouija 🕯️</h1>
-    <input type="text" id="questionInput" placeholder="Ask your question..." />
-    <br>
-    <button onclick="askGhost()">Ask Ghost</button>
-     <div class="response" id="responseText"></div>
+    
+    <div class="question-section">
+      <div class="question-label">📢 Ask Your Question to the Spirits:</div>
+      <input type="text" id="questionInput" placeholder="Type your question here..." />
+      <br>
+      <button onclick="askGhost()">🔮 Ask Ghost</button>
+    </div>
+
+    <div class="response-section">
+      <div class="response-label">👻 The Spirit Speaks:</div>
+      <div class="response" id="responseText"></div>
+    </div>
   </div>
 
   <script>
@@ -133,22 +181,22 @@
     setInterval(loopAudio, 30000);
 
     const qaList = [
-      { questions: ["what is your name", "name", "what's your name", "ur name", "your name", "nam kya hai", "tumera nam"], answer: "I don't want to tell you" },
-      { questions: ["when you born", "where are you born", "born"], answer: "In a time long forgotten, in a place swallowed by shadows..." },
-      { questions: ["how did you die", "you die", "how u die", "how you die"], answer: "Screaming... alone... in fire and fear..." },
-      { questions: ["what is your purpose here", "why are u here", "why are you here", "why u here"], answer: "To finish what was never done..." },
-      { questions: ["where are you from", "where u from", "where are u from", "where from"], answer: "I'm from Hell. I have the wish, do you complete my wish?" },
-      { questions: ["in hell what u do", "what you do in hell", "what u do in hell", "what u work in hell", "why u in hell", "why you in hell"], answer: "Your world pushed me there. I have the wish, do you complete my wish?" },
-      { questions: ["what is your wish", "no", "noo", "no to do", "yes"], answer: "You must complete my wish — that's your fate." },
-      { questions: ["can you tell me about your life"], answer: "A short tale... ended with a scream..." },
-      { questions: ["are you with us", "are you with me", "are u here", "are you here", "are u with me"], answer: "Always..." },
-      { questions: ["are you close to us", "where are you", "where are u"], answer: "I'm closer than your breath..." },
-      { questions: ["show us yourself"], answer: "Look into the darkness..." },
-      { questions: ["where you here", "where are you here"], answer: "Right behind you..." },
-      { questions: ["why are you here", "why you here"], answer: "I have the wish." },
-      { questions: ["should we leave"], answer: "You’re already too late..." },
-      { questions: ["do you know my name"], answer: "Yes... and I whisper it while you sleep..." },
-      { questions: ["tell my name"], answer: "It’s already carved in my memory..." }
+      { questions: ["what is your name", "name", "what's your name", "ur name", "your name", "nam kya hai", "tumera nam", "who are you"], answer: "I don't want to tell you.." },
+      { questions: ["when you born", "where are you born", "born", "when were you born", "birth"], answer: "In a time long forgotten, in a place swallowed by shadows..." },
+      { questions: ["how did you die", "you die", "how u die", "how you die", "cause of death"], answer: "Screaming... alone... in fire and fear..." },
+      { questions: ["what is your purpose here", "why are u here", "why are you here", "why u here", "purpose", "why"], answer: "To finish what was never done..." },
+      { questions: ["where are you from", "where u from", "where are u from", "where from", "origin"], answer: "I'm from Hell. I have the wish, do you complete my wish?" },
+      { questions: ["in hell what u do", "what you do in hell", "what u do in hell", "what u work in hell", "why u in hell", "why you in hell", "hell"], answer: "Your world pushed me there. I have the wish, do you complete my wish?" },
+      { questions: ["what is your wish", "no", "noo", "no to do", "yes", "wish"], answer: "You must complete my wish — that's your fate." },
+      { questions: ["can you tell me about your life", "your life", "life"], answer: "A short tale... ended with a scream..." },
+      { questions: ["are you with us", "are you with me", "are u here", "are you here", "are u with me", "here"], answer: "Always..." },
+      { questions: ["are you close to us", "where are you", "where are u", "location"], answer: "I'm closer than your breath..." },
+      { questions: ["show us yourself", "show yourself", "appear", "reveal"], answer: "Look into the darkness..." },
+      { questions: ["where you here", "where are you here", "behind"], answer: "Right behind you..." },
+      { questions: ["why are you here", "why you here", "why"], answer: "I have the wish." },
+      { questions: ["should we leave", "leave", "go away"], answer: "You're already too late..." },
+      { questions: ["do you know my name", "my name"], answer: "Yes... and I whisper it while you sleep..." },
+      { questions: ["tell my name", "tell me"], answer: "It's already carved in my memory..." }
     ];
 
     function askGhost() {
