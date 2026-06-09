@@ -96,6 +96,23 @@
       text-align: center;
     }
 
+    .suggestion-hint {
+      margin-top: 10px;
+      color: #a0f6e0;
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .suggestion-hint span {
+      display: inline-block;
+      margin: 4px 6px;
+      padding: 5px 10px;
+      border: 1px solid #00ffcc;
+      border-radius: 12px;
+      background: rgba(0, 255, 204, 0.08);
+    }
+
     .response-section {
       margin-top: 30px;
       padding: 20px;
@@ -160,8 +177,21 @@
     
     <div class="question-section">
       <div class="question-label">📢 Ask Your Question to the Spirits:</div>
-      <input type="text" id="questionInput" placeholder="Type your question here..." />
-      <br>
+      <input type="text" id="questionInput" list="questionSuggestions" placeholder="Type your question here..." />
+      <datalist id="questionSuggestions">
+        <option value="What is your name?">
+        <option value="Where are you from?">
+        <option value="How did you die?">
+        <option value="Why are you here?">
+        <option value="Can you tell me about your life?">
+        <option value="Should we leave?">
+      </datalist>
+      <div class="suggestion-hint">
+        Try one of these questions:
+        <span>What is your name?</span>
+        <span>Where are you from?</span>
+        <span>How did you die?</span>
+      </div>
       <button onclick="askGhost()">🔮 Ask Ghost</button>
     </div>
 
