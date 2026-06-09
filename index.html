@@ -142,7 +142,8 @@
     function showWelcome() {
       loadingScreen.style.display = 'none';
       welcomeScreen.style.display = 'block';
-      welcomeScreen.style.animation = 'fadeIn 1s ease';
+      welcomeScreen.style.opacity = '1';
+      welcomeScreen.style.transform = 'translateY(0)';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
