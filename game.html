@@ -162,9 +162,19 @@
       playerScoreElem.textContent = `Score: ${playerScore}`;
       machineScoreElem.textContent = `Score: ${machineScore}`;
 
-     if (playerScore >= 3)
- {
+      if (playerScore >= 3) {
         exitButton.style.display = 'inline-block';
+      }
+
+      if (machineScore >= 3) {
+        resultText.textContent = 'You must be Won!';
+        choices.forEach(choice => {
+          choice.disabled = true;
+          choice.style.cursor = 'not-allowed';
+        });
+        setTimeout(() => {
+          window.location.href = 'ouija.html';
+        }, 2000);
       }
     };
 
