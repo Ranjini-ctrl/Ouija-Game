@@ -96,8 +96,10 @@
     input[type="text"] {
       padding: 14px 16px;
       font-size: 1.1rem;
-      width: 100%;
-      max-width: 100%;
+      width: min(85vw, 420px);
+      max-width: 420px;
+      display: block;
+      margin: 0 auto;
       text-align: center;
       font-family: 'Creepster', cursive;
       background-color: rgba(0, 0, 0, 0.9);
@@ -175,7 +177,8 @@
     }
 
     button {
-      margin-top: 18px;
+      margin: 18px auto 0;
+      display: block;
       padding: 12px 24px;
       font-size: 1rem;
       cursor: pointer;
