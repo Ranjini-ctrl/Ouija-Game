@@ -39,24 +39,6 @@
       margin-bottom: 28px;
       color: #b6b6e4;
     }
-    .loading-bar {
-      width: 100%;
-      height: 10px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
-      overflow: hidden;
-      margin: 0 auto 20px auto;
-    }
-    .loading-bar span {
-      display: block;
-      width: 0;
-      height: 100%;
-      background: linear-gradient(90deg, #f72585, #4cc9f0);
-      animation: loadingProgress 2s ease-in-out forwards;
-    }
-    @keyframes loadingProgress {
-      to { width: 100%; }
-    }
     .start-btn {
       background: linear-gradient(90deg, #f72585 0%, #4cc9f0 100%);
       color: #fff;
@@ -84,7 +66,7 @@
   <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay muted loop style="display:none"></audio>
 
   <div id="loadingScreen" class="welcome" style="width: 100%; max-width: 420px;">
-    <h1>Preparing the Silance...</h1>
+    <h1>Preparing the Silence...</h1>
     <p>Spirits are waking. Please wait a moment.</p>
     <div class="loading-bar">
       <span></span>
