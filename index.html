@@ -63,7 +63,7 @@
 </head>
 <body>
   <!-- Background music -->
-  <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay loop style="display:none"></audio>
+  <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay muted loop style="display:none"></audio>
   <!-- Welcome Page -->
   <div class="welcome" id="welcomeScreen">
     <h1>🔮 Ouija Board Game</h1>
@@ -82,13 +82,14 @@
 
     });
 
-    // Unmute audio on user interaction if browser blocks autoplay
+    // Unmute audio on user interaction
     document.body.addEventListener('click', function() {
       const audio = document.getElementById('bg-music');
-      if (audio && audio.paused) {
+      if (audio) {
+        audio.muted = false;
         audio.play();
       }
-    });
+    }, {once: true});
   </script>
 </body>
 </html>
