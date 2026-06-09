@@ -39,6 +39,24 @@
       margin-bottom: 28px;
       color: #b6b6e4;
     }
+    .loading-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 0 auto 20px auto;
+    }
+    .loading-bar span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #f72585, #4cc9f0);
+      animation: loadingProgress 2s ease-in-out forwards;
+    }
+    @keyframes loadingProgress {
+      to { width: 100%; }
+    }
     .start-btn {
       background: linear-gradient(90deg, #f72585 0%, #4cc9f0 100%);
       color: #fff;
@@ -64,8 +82,17 @@
 <body>
   <!-- Background music -->
   <audio id="bg-music" src="ghost-girl-in-my-room-158693.mp3" autoplay muted loop style="display:none"></audio>
+
+  <div id="loadingScreen" class="welcome" style="width: 100%; max-width: 420px;">
+    <h1>Preparing the séance...</h1>
+    <p>Spirits are waking. Please wait a moment.</p>
+    <div class="loading-bar">
+      <span></span>
+    </div>
+  </div>
+
   <!-- Welcome Page -->
-  <div class="welcome" id="welcomeScreen">
+  <div class="welcome" id="welcomeScreen" style="display:none;">
     <h1>🔮 Ouija Board Game</h1>
     <p>Welcome, seeker of mysteries!<br>
       Are you ready to contact the spirits?<br>
@@ -74,17 +101,27 @@
   </div>
   <script>
     const welcomeScreen = document.getElementById('welcomeScreen');
+    const loadingScreen = document.getElementById('loadingScreen');
     const startBtn = document.getElementById('startBtn');
+    const audio = document.getElementById('bg-music');
+
+    function showWelcome() {
+      loadingScreen.style.display = 'none';
+      welcomeScreen.style.display = 'block';
+      welcomeScreen.style.animation = 'fadeIn 1s ease';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      audio.play().catch(() => {});
+      setTimeout(showWelcome, 2200);
+    });
 
     startBtn.addEventListener('click', () => {
-  window.location.href = 'home.html';
-
-
+      window.location.href = 'home.html';
     });
 
     // Unmute audio on user interaction
     document.body.addEventListener('click', function() {
-      const audio = document.getElementById('bg-music');
       if (audio) {
         audio.muted = false;
         audio.play();
