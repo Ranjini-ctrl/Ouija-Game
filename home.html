@@ -81,10 +81,30 @@
       border: 2px solid #f123036b;
       border-radius: 30px;
       padding: 25px 30px;
-      width: 90%;
-      max-width: 600px;
+      width: min(92vw, 620px);
+      max-width: 620px;
       box-shadow: 0 0 15px #080100;
       margin-top: 140px;
+    }
+
+    .side-panel {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #e0e0ff;
+      padding: 20px;
+      border-radius: 10px 0 0 10px;
+      border-left: 3px solid #520402;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      text-align: center;
+      box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6);
+      z-index: 1000;
+      max-width: 250px;
+      animation: slideInRight 1s ease-out, pulse 4s infinite alternate;
+      backdrop-filter: blur(3px);
     }
 
     h2 {
@@ -155,6 +175,27 @@
       50% { box-shadow: -5px 5px 25px rgba(82, 4, 2, 0.8); }
       100% { box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6); }
     }
+
+    @media (max-width: 820px) {
+      body { padding-top: 100px; }
+      h1 { font-size: clamp(2.4rem, 8vw, 3.4rem); top: 8px; }
+      .warning { width: min(92vw, 360px); padding: 18px; font-size: 0.95rem; }
+      .rules-box { width: min(92vw, 92vw); margin-top: 160px; padding: 22px; }
+      .rule-list li { font-size: 20px; }
+      #talkButton { width: 100%; margin-top: 22px; }
+      #talkButton button { width: 100%; font-size: 1rem; padding: 14px 0; }
+      .side-panel { position: static; transform: none; width: min(92vw, 520px); margin: 24px auto 0; border-radius: 20px; }
+      #toggleWarningBtn { position: fixed; top: 16px; right: 16px; width: 46px; height: 46px; font-size: 24px; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding-top: 80px; }
+      h1 { font-size: clamp(2rem, 9vw, 2.8rem); }
+      .warning { width: min(96vw, 340px); padding: 16px; height: auto; }
+      .rules-box { padding: 18px; }
+      .rule-list li { font-size: 18px; }
+      .side-panel { width: min(96vw, 100%); padding: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -188,25 +229,7 @@
     </div>
   </div>
 
-  <div style="
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #e0e0ff;
-    padding: 20px;
-    border-radius: 10px 0 0 10px;
-    border-left: 3px solid #520402;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    text-align: center;
-    box-shadow: -5px 5px 20px rgba(82, 4, 2, 0.6);
-    z-index: 1000;
-    max-width: 250px;
-    animation: slideInRight 1s ease-out, pulse 4s infinite alternate;
-    backdrop-filter: blur(3px);
-  ">
+  <div class="side-panel">
     <div style="font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #520402; padding-bottom: 8px; color: #d4a59a;">
       Spirit Communication
     </div>

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Scanning Ghost</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       background: url('https://cdn.pixabay.com/photo/2021/02/13/12/49/house-6011465_640.jpg') no-repeat center center fixed;
@@ -122,13 +123,23 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 480px) {
-      body { padding: 16px; }
-      .scanner-container { padding: 24px 18px; }
+    @media (max-width: 720px) {
+      body { padding: 18px; background-attachment: scroll; }
+      .scanner-container { padding: 24px 20px; width: min(92vw, 420px); }
       #radar { max-width: 260px; }
       #ghostLogoCircle { width: 120px; height: 120px; }
       #getStartedBtn { width: 100%; padding: 14px 18px; }
       #connectMsg { font-size: 1rem; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      .scanner-container { padding: 20px 16px; width: min(96vw, 380px); }
+      h1 { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+      #radar { max-width: 220px; }
+      #ghostLogoCircle { width: 110px; height: 110px; }
+      #connectMsg { font-size: 0.95rem; }
+      #getStartedBtn { font-size: 0.95rem; padding: 12px 16px; }
     }
   </style>
 </head>
