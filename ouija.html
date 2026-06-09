@@ -73,7 +73,8 @@
     input[type="text"] {
       padding: 10px;
       font-size: 1.2rem;
-      width: 300px;
+      width: 100%;
+      max-width: 420px;
       text-align: center;
       font-family: 'Creepster', cursive;
       background-color: black;
@@ -258,7 +259,7 @@
       document.getElementById("questionInput").value = "";
     }
 
-    // Jump scare after 3 mins
+    // Jump scare after 0.30 mins (18 seconds)
     setTimeout(() => {
       const body = document.body;
       const jumpAudio = new Audio("gh.mp3");
@@ -279,7 +280,7 @@
         jumpScare.remove();
         body.classList.remove("vibrate");
       }, 2000);
-    }, 180000);
+    }, 18000);
 
     // Redirect after 1 minute
     setTimeout(() => {
